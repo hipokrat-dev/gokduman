@@ -17,3 +17,7 @@ assets/office-reference-mobile.blend
 renders/office-refined.png
 renders/office-reference-desktop.png
 renders/office-reference-mobile.png
+
+# Baked maps are embedded in the GLB files
+public/models/desktop-*.jpg
+public/models/mobile-*.jpg

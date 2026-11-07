@@ -1,0 +1,23 @@
+{
+  "architecture": {
+    "polygons": 2744
+  },
+  "furniture": {
+    "polygons": 70153
+  },
+  "projects": {
+    "polygons": 1238
+  },
+  "contact": {
+    "polygons": 294
+  },
+  "vr": {
+    "polygons": 5220
+  },
+  "design": {
+    "polygons": 8424
+  },
+  "about": {
+    "polygons": 8396
+  }
+}

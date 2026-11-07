@@ -1,0 +1,17 @@
+const {readFileSync}=require('node:fs');
+const assert=require('node:assert/strict');
+const ts=require('typescript');
+const output=ts.transpileModule(readFileSync('lib/validation.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText;
+const mod={exports:{}};new Function('exports','require',output)(mod.exports,require);
+const {url,project,profile}=mod.exports;
+assert.throws(()=>url('javascript:alert(1)'));
+assert.throws(()=>url('data:text/html,hello'));
+assert.equal(url('/previews/mobile.png',true),'/previews/mobile.png');
+assert.throws(()=>url('/etc/passwd',true));
+const valid={id:'demo',title:'Demo',description:'Text',category:'vr',external_url:'https://example.com',image_url:'',published:true,sort_order:0,demo:true};
+assert.equal(project(valid).published,true);
+assert.throws(()=>project({...valid,category:'admin'}));
+assert.throws(()=>project({...valid,sort_order:1.5}));
+assert.throws(()=>project({...valid,title:''}));
+assert.throws(()=>profile({name:'Name',tagline:'',biography:'',email:'bad',github:'',linkedin:'',instagram:'',sketchfab:''}));
+console.log('Validation: 9 checks passed');
