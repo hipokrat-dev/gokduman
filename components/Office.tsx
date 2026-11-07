@@ -8,7 +8,7 @@ function safeLink(url:string|null){if(!url)return undefined;try{const u=new URL(
 export default function Office({projects}:{projects:Project[]}){
  const [active,setActive]=useState<SectionID|null>(null);const [ready,setReady]=useState(true);const [selected,setSelected]=useState<Project|null>(null);const [flat,setFlat]=useState(false);
  const onReady=useCallback(()=>setReady(true),[]);
- const open=useCallback((id:SectionID)=>{if(!ready)return;setSelected(null);setReady(false);setActive(id);history.pushState({},'',`#${id}`);if(flat)setReady(true)},[ready,flat]);
+ const open=useCallback((id:SectionID)=>{if(!ready)return;if(active===id)return;setSelected(null);setReady(false);setActive(id);history.pushState({},'',`#${id}`);if(flat)setReady(true)},[ready,flat,active]);
  const close=useCallback(()=>{setActive(null);setSelected(null);setReady(false);history.replaceState({},'',location.pathname);if(flat)setReady(true)},[flat]);
  useEffect(()=>{const update=()=>{const id=location.hash.slice(1) as SectionID;setActive(sections.some(s=>s.id===id)?id:null);setSelected(null);setReady(true)};update();window.addEventListener('popstate',update);const key=(e:KeyboardEvent)=>{if(e.key==='Escape')close()};window.addEventListener('keydown',key);return()=>{window.removeEventListener('popstate',update);window.removeEventListener('keydown',key)}},[close]);
  const section=sections.find(s=>s.id===active);const items=projects.filter(p=>p.category===active);

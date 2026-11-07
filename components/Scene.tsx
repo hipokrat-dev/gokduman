@@ -1,6 +1,6 @@
 'use client';
 import { Canvas, useThree } from '@react-three/fiber';
-import { ContactShadows, Html, RoundedBox } from '@react-three/drei';
+import { ContactShadows, Html, RoundedBox, useGLTF } from '@react-three/drei';
 import { Suspense, useEffect } from 'react';
 import gsap from 'gsap';
 import { Vector3 } from 'three';
@@ -13,12 +13,12 @@ function Camera({active,onReady}:{active:SectionID|null;onReady:()=>void}){
 function Box({position,size,color='#40362c',metal=0}:{position:[number,number,number];size:[number,number,number];color?:string;metal?:number}){return <RoundedBox args={size} radius={.025} smoothness={3} position={position} castShadow receiveShadow><meshStandardMaterial color={color} roughness={metal?.32:.68} metalness={metal}/></RoundedBox>}
 function Hit({id,position,children,onOpen}:{id:SectionID;position:[number,number,number];children:React.ReactNode;onOpen:(id:SectionID)=>void}){return <group position={position} onClick={e=>{e.stopPropagation();onOpen(id)}} onPointerOver={()=>document.body.style.cursor='pointer'} onPointerOut={()=>document.body.style.cursor='auto'}>{children}</group>}
 function Plant({position}:{position:[number,number,number]}){return <group position={position}><mesh castShadow><cylinderGeometry args={[.18,.13,.3,24]}/><meshStandardMaterial color="#afa08c" roughness={.9}/></mesh>{Array.from({length:9},(_,i)=><mesh key={i} position={[Math.sin(i*2.4)*.12,.32+Math.sin(i)*.08,Math.cos(i*2.4)*.12]} rotation={[Math.sin(i)*.7,i,.35]} castShadow><sphereGeometry args={[1,12,8]}/><meshStandardMaterial color={i%2?'#384936':'#506044'} roughness={.9}/><group/></mesh>).map((el,i)=>({...el,props:{...el.props,scale:[.065,.32,.055]}}))}</group>}
+function RoomAsset(){ const {scene}=useGLTF("/models/office-room.glb");return <primitive object={scene}/> }
 function Room({active,ready,onOpen,children}:{active:SectionID|null;ready:boolean;onOpen:(id:SectionID)=>void;children:React.ReactNode}){return <>
 <color attach="background" args={['#201c18']}/><fog attach="fog" args={['#201c18',11,24]}/>
 <ambientLight intensity={.65}/><hemisphereLight args={['#c9d8e6','#775139',1.5]}/><directionalLight position={[-4,6,3]} intensity={2.6} color="#ffdfb4" castShadow shadow-mapSize={[2048,2048]}/><pointLight position={[-2,2.4,.4]} intensity={10} color="#ffbb6e" distance={6}/>
-<Box position={[0,-.12,0]} size={[14,.2,10]} color="#5b4331"/><Box position={[0,2,-1.7]} size={[12,6,.15]} color="#6e6255"/>
-<Box position={[0,.85,0]} size={[5.9,.16,1.8]} color="#865a37"/>{[-2.7,2.7].map(x=><Box key={x} position={[x,.35,0]} size={[.12,1,.12]} color="#242729" metal={.7}/>)}
-{[2.55,3.6].map(y=><group key={y}><Box position={[0,y,-1.25]} size={[5.8,.10,.65]} color="#825a3a"/>{Array.from({length:12},(_,i)=><Box key={i} position={[(i<6?-2.55:1.1)+(i%6)*.23,y+.28,-1.28]} size={[.18,.47+(i%3)*.06,.28]} color={['#343f47','#775440','#c0ab83','#574d42'][i%4]}/>)}</group>)}
+<RoomAsset/>
+{[2.55,3.6].map(y=><group key={y}>{Array.from({length:12},(_,i)=><Box key={i} position={[(i<6?-2.55:1.1)+(i%6)*.23,y+.28,-1.28]} size={[.18,.47+(i%3)*.06,.28]} color={['#343f47','#775440','#c0ab83','#574d42'][i%4]}/>)}</group>)}
 <Hit id="projects" position={[0,1.65,-.45]} onOpen={onOpen}><Box position={[0,0,0]} size={[2.3,1.35,.12]} color="#171b1e" metal={.4}/><Box position={[0,-.7,.1]} size={[.14,.35,.12]} color="#22272b" metal={.7}/><Box position={[0,-.78,.2]} size={[.65,.04,.4]} color="#22272b" metal={.7}/><mesh position={[0,0,.071]}><planeGeometry args={[2.17,1.22]}/><meshStandardMaterial color="#163038" emissive="#204b58" emissiveIntensity={.8}/></mesh>{active==='projects'&&ready?<Html transform position={[0,0,.09]} distanceFactor={1.12} style={{width:740,height:410}}>{children}</Html>:<Html transform position={[0,0,.09]} distanceFactor={1.12} style={{width:740,pointerEvents:'none'}}><div className="monitor-cover"><small>DİJİTAL ATÖLYE</small><strong>Merhaba.<br/>Birlikte keşfedelim.</strong><span>Projelerimi incele ↗</span></div></Html>}</Hit>
 <Box position={[0,.97,.55]} size={[1.1,.045,.35]} color="#252829"/>{Array.from({length:40},(_,i)=><Box key={i} position={[-.47+(i%10)*.105,1.005,.43+Math.floor(i/10)*.075]} size={[.08,.025,.045]} color="#454744"/>)}<Box position={[.9,.98,.55]} size={[.18,.07,.28]} color="#252829"/>
 <Hit id="contact" position={[-1.7,1.15,.2]} onOpen={onOpen}><group rotation={[-.15,0,0]}><Box position={[0,0,0]} size={[.28,.52,.035]} color="#161a1c"/><Box position={[0,0,.025]} size={[.24,.46,.01]} color="#64858d"/></group></Hit>
