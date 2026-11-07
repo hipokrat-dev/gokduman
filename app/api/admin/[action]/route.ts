@@ -11,7 +11,7 @@ export const dynamic='force-dynamic';
 const response=(body:unknown,status=200)=>NextResponse.json(body,{status,headers:{'Cache-Control':'no-store'}});
 export async function GET(_req:NextRequest,ctx:{params:Promise<{action:string}>}){try{await ensureSchema();const {action}=await ctx.params;if(action==='status'){const [rows]=await requireDB().query<RowDataPacket[]>('SELECT id FROM portfolio_admin LIMIT 1');return response({configured:rows.length>0,authenticated:await authenticated(),setupAvailable:(process.env.ADMIN_SETUP_TOKEN?.length||0)>=24});}if(!await authenticated())return response({error:'Oturum açmanız gerekiyor.'},401);if(action==='content')return response(await content(true));return response({error:'Bulunamadı.'},404);}catch{return response({error:'Veritabanı bağlantısı hazır değil. Hostinger ortam ayarlarını kontrol edin.'},503);}}
 export async function POST(req:NextRequest,ctx:{params:Promise<{action:string}>}){
- const expected=process.env.APP_URL||req.nextUrl.origin;if(req.headers.get('origin')!==expected)return response({error:'İstek kaynağı geçersiz.'},403);
+ const expected=process.env.APP_URL||(process.env.NODE_ENV==='production'?'https://dimgrey-mule-297927.hostingersite.com':req.nextUrl.origin);if(req.headers.get('origin')!==expected)return response({error:'İstek kaynağı geçersiz.'},403);
  try{await ensureSchema();const db=requireDB();const {action}=await ctx.params;
  if(action==='upload'){
   if(!await authenticated())return response({error:'Oturum açmanız gerekiyor.'},401);
