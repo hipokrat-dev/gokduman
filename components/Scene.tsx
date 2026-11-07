@@ -8,7 +8,7 @@ import {SectionID} from '@/data/content';
 type Props={screenContent:ReactNode;name:string;active:SectionID|null;onReady:()=>void;onLoaded:()=>void;onOpen:(id:SectionID)=>void};
 function Room({screenContent,name,active,onReady,onLoaded,onOpen}:Props){
  const {camera,size,gl}=useThree();const mobile=size.width<700;
- const asset=useGLTF(`/models/office-${mobile?'mobile':'desktop'}.glb`);
+ const asset=useGLTF(`/models/office-${mobile?'mobile':'desktop'}.glb?v=${mobile?'2':'raven3'}`);
  const room=useMemo(()=>{const clone=asset.scene.clone(true);clone.traverse(o=>{if(o instanceof Mesh){o.material=Array.isArray(o.material)?o.material.map(m=>m.clone()):o.material.clone();}});return clone},[asset]);
  const nameplate=useMemo(()=>{const canvas=document.createElement('canvas');canvas.width=1536;canvas.height=320;const context=canvas.getContext('2d')!;context.fillStyle='#12110f';context.fillRect(0,0,1536,320);context.strokeStyle='#b98b44';context.lineWidth=12;context.strokeRect(8,8,1520,304);context.textAlign='center';context.textBaseline='middle';context.fillStyle='#ffe3a6';let fontSize=120;context.font=`600 ${fontSize}px Arial`;while(context.measureText(name).width>1410&&fontSize>40){fontSize-=2;context.font=`600 ${fontSize}px Arial`;}context.fillText(name,768,116);context.font='64px Arial';context.fillStyle='#e0c69c';context.fillText('Tıp · Teknoloji · Tasarım',768,245);const texture=new CanvasTexture(canvas);texture.colorSpace=SRGBColorSpace;return texture},[name]);
  useEffect(()=>()=>nameplate.dispose(),[nameplate]);
