@@ -34,3 +34,7 @@ Hostinger ortam değişkenleri: `DB_HOST=127.0.0.1`, `DB_PORT=3306`, `DB_NAME`, 
 Masaüstü ve mobil için ayrı Blender sahneleri `assets/office-reference-*-v2.blend` dosyalarındadır. `scripts/export_web.py` Cycles ışığını dokulara bake eder ve etkileşim gruplarıyla GLB üretir. Tarayıcı Three.js / React Three Fiber ile modelleri gösterir; nesne seçimi kamera yakınlaşmasını başlatır, fare üzerindeyken nesnenin ışığı artar. Menü klavye erişimi, sade görünüm WebGL alternatifi sağlar. Dışa aktarılan GLB dosyaları yaklaşık 9 MB olduğundan ilk açılış bağlantıya bağlıdır.
 
 Kontroller: `npm run build`, `node tests/validation.cjs`.
+
+Projeler ve iletişim artık 3D cihaz ekranlarına bağlı HTML yüzeylerinde gösterilir: monitör için yatay, telefon için dikey arayüz. Kamera ekranın yüzeyine yaklaşır. Dar ekranlarda proje açıklaması monitör içinde kaydırılır; sade görünümde erişilebilir standart paneller korunur.
+
+`scripts/rebuild_raven.py` masaüstü kuzgununun referansa göre düzenlenen modelini ve ayrı ışık dokusunu üretir. `scripts/merge_raven_glb.py` önceki masaüstü GLB'deki eski kuzgun yüzlerini çıkarıp yenisini ekler; odanın diğer doku haritalarını korur. Bu birleştirme betiği aynı çıktıya tekrar uygulanmaz; girdi önce önceki GLB sürümünden geri yüklenir.
