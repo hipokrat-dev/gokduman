@@ -22,3 +22,7 @@ The user's desktop and mobile reference images define two distinct arrangements.
 4. `polish_reference.py` → corrected text orientation, articulated lamp, mobile monitor scale and warm lighting.
 
 Latest outputs: `office-reference-desktop-v2.png` and `office-reference-mobile-v2.png`. Matching `.blend` files are in `assets/`. Earlier generated intermediates are kept locally but excluded from version control. These are original modeled approximations of the supplied composition; they are not identical reproductions of the reference images, nor screenshots of the live site.
+
+### Desktop raven revision
+
+Run `scripts/refine_raven.py` after the composition pipeline to replace the desktop raven only. It produces a leaner corvid silhouette with a tapered bill, folded pointed wing feathers, a wedge-shaped tail, visible legs and gripping toes. It updates the desktop Blender scene and preview, and produces `raven-detail.png` for close inspection. The mobile scene is unchanged by this step.
