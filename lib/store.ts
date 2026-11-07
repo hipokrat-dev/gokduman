@@ -1,5 +1,5 @@
 import {requireDB} from './db';
-import {demoProfile,demoProjects,Profile,Project} from '@/data/content';
+import {demoProfile,demoProjects,vrDemoProjects,Profile,Project} from '@/data/content';
 import type {RowDataPacket} from 'mysql2';
 const state=globalThis as typeof globalThis & {portfolioSchema?:Promise<void>};
 async function migrate(){
@@ -20,6 +20,13 @@ async function migrate(){
  if(rows[0].setting_value==='0'){
  for(const p of demoProjects)await connection.execute('INSERT IGNORE INTO projects (id,title,description,category,external_url,image_url,published,sort_order,is_demo) VALUES (?,?,?,?,?,?,?,?,?)',[p.id,p.title,p.description,p.category,p.external_url,p.image_url,true,p.sort_order??0,true]);
  await connection.execute("INSERT IGNORE INTO portfolio_settings VALUES ('profile',?)",[JSON.stringify(demoProfile)]);await connection.query("UPDATE portfolio_settings SET setting_value='1' WHERE setting_key='seeded'");}
+ await connection.query("INSERT IGNORE INTO portfolio_settings VALUES ('vr-gallery-v1','0')");
+ const [vrSeed]=await connection.query<RowDataPacket[]>("SELECT setting_value FROM portfolio_settings WHERE setting_key='vr-gallery-v1' FOR UPDATE");
+ if(vrSeed[0].setting_value==='0'){
+  for(const p of vrDemoProjects)await connection.execute('INSERT IGNORE INTO projects (id,title,description,category,external_url,image_url,published,sort_order,is_demo) VALUES (?,?,?,?,?,?,?,?,?)',[p.id,p.title,p.description,p.category,p.external_url,p.image_url,true,p.sort_order??0,true]);
+  await connection.execute("UPDATE projects SET published=0 WHERE id='demo-vr' AND is_demo=1 AND title='Sanal Gerçeklik Deneyimi' AND description LIKE 'Demo proje: Sanal bir ortamı keşfetme%'");
+  await connection.query("UPDATE portfolio_settings SET setting_value='1' WHERE setting_key='vr-gallery-v1'");
+ }
  await connection.commit();}catch(error){await connection.rollback();throw error;}finally{connection.release();}
 }
 export function ensureSchema(){return state.portfolioSchema??=migrate().catch(error=>{state.portfolioSchema=undefined;throw error;});}

@@ -38,3 +38,9 @@ Kontroller: `npm run build`, `node tests/validation.cjs`.
 Projeler ve iletişim artık 3D cihaz ekranlarına bağlı HTML yüzeylerinde gösterilir: monitör için yatay, telefon için dikey arayüz. Kamera ekranın yüzeyine yaklaşır. Dar ekranlarda proje açıklaması monitör içinde kaydırılır; sade görünümde erişilebilir standart paneller korunur.
 
 `scripts/rebuild_raven.py` masaüstü kuzgununun referansa göre düzenlenen modelini ve ayrı ışık dokusunu üretir. `scripts/merge_raven_glb.py` önceki masaüstü GLB'deki eski kuzgun yüzlerini çıkarıp yenisini ekler; odanın diğer doku haritalarını korur. Bu birleştirme betiği aynı çıktıya tekrar uygulanmaz; girdi önce önceki GLB sürümünden geri yüklenir.
+
+## VR proje alanı
+
+VR gözlüğü seçildiğinde kamera yaklaşır ve kısa bir mercek geçişiyle ayrı bir Three.js sergi alanı açılır. Fare/parmak sürükleme ile çevreye bakılabilir; alt bölümdeki proje düğmeleri veya ok tuşlarıyla panellere dönülür. Proje kartları ayrıntılarını açar; Escape önce ayrıntıyı, ardından VR alanını kapatır. Hareket azaltma tercihi desteklenir. Bu bir tarayıcı deneyimidir; gerçek bir VR başlığı veya WebXR izni istemez.
+
+Üç demo kayıt (`İlk Yardım`, `AED Eğitimi`, `İş Güvenliği`) bir defalık `vr-gallery-v1` geçişiyle Hostinger MySQL'e eklenir. Sonraki admin düzenlemelerinin üzerine yazılmaz. Önceki genel VR demosu yalnızca orijinal demo içeriği korunmuşsa taslağa alınır. Görseller image_gen ile üretildi; tam promptlar `assets/vr-demo/IMAGE-PROMPTS.md` dosyasında yer alır.

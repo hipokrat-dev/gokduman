@@ -14,4 +14,5 @@ assert.throws(()=>project({...valid,category:'admin'}));
 assert.throws(()=>project({...valid,sort_order:1.5}));
 assert.throws(()=>project({...valid,title:''}));
 assert.throws(()=>profile({name:'Name',tagline:'',biography:'',email:'bad',github:'',linkedin:'',instagram:'',sketchfab:''}));
-console.log('Validation: 9 checks passed');
+for(const name of ['first-aid','aed','work-safety'])assert.equal(url('/previews/vr-'+name+'.webp',true),'/previews/vr-'+name+'.webp');
+console.log('Validation: 12 checks passed');
