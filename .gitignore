@@ -7,3 +7,13 @@ node_modules/
 
 # Blender automatic backups
 *.blend[0-9]
+
+__pycache__/
+
+# Reproducible intermediate visual studies (keep final reference scenes)
+assets/office-refined.blend
+assets/office-reference-desktop.blend
+assets/office-reference-mobile.blend
+renders/office-refined.png
+renders/office-reference-desktop.png
+renders/office-reference-mobile.png
