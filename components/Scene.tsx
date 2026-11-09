@@ -30,10 +30,10 @@ function Room({screenContent,name,active,onReady,onLoaded,onOpen}:Props){
   const x=motionEnabled.current?mouse.current.x:0,y=motionEnabled.current?mouse.current.y:0;
   const t=motionEnabled.current?1-Math.exp(-Math.min(delta,.1)*4):1;
   // Move the camera itself: foreground objects shift against the distant wall.
-  camera.position.x+=(x*.20-camera.position.x)*t;
-  camera.position.y+=(2.13+y*.10-camera.position.y)*t;
-  look.current.x+=(x*.045-look.current.x)*t;
-  look.current.y+=(2.05+y*.025-look.current.y)*t;
+  camera.position.x+=(x*.27-camera.position.x)*t;
+  camera.position.y+=(2.13+y*.135-camera.position.y)*t;
+  look.current.x+=(x*.06-look.current.x)*t;
+  look.current.y+=(2.05+y*.034-look.current.y)*t;
   camera.lookAt(look.current);
  });
  const sections=useMemo(()=>{const nodes=new Map<string,Object3D>();room.traverse(o=>{if(o.userData.section)nodes.set(o.userData.section,o)});return nodes},[room]);
