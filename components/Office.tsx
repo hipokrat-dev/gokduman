@@ -1,4 +1,5 @@
 'use client';
+import {adminUrl} from '@/lib/site-links';
 import dynamic from 'next/dynamic';
 import {Component,ReactNode,useCallback,useEffect,useRef,useState} from 'react';
 import {Profile,Project,SectionID,sections} from '@/data/content';
@@ -27,6 +28,6 @@ export default function Office({projects,profile}:{projects:Project[];profile:Pr
  <nav className={`section-nav ${flat?'visible':''}`} aria-label="Atölye bölümleri">{sections.map(s=><button key={s.id} onClick={()=>open(s.id)}>{s.name}</button>)}</nav>
  {active&&(ready||flat)&&(!screenSection||flat)&&!vrImmersed&&<div className={`panel-backdrop section-${active}`} onPointerDown={e=>{if(e.target===e.currentTarget)close()}}>{panel}</div>}
  {vrImmersed&&<SceneBoundary onError={onError}><VRGallery projects={projects.filter(p=>p.category==='vr')} onExit={close}/></SceneBoundary>}
- <a className="keyboard-admin" href="/admin">Beyaz kitap — Yönetim paneli</a>
+ <a className="keyboard-admin" href={adminUrl}>Beyaz kitap — Yönetim paneli</a>
  </main>
 }

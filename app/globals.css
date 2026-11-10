@@ -7,3 +7,5 @@
 
 /* Keyboard access without a persistent settings icon. */
 .keyboard-admin{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}.keyboard-admin:focus-visible{z-index:50;left:20px;bottom:20px;width:auto;height:auto;margin:0;padding:12px 18px;overflow:visible;clip-path:none;background:#211b15;color:#fff;border-radius:8px}
+
+.delivery-status{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px;text-align:center}.delivery-status h1{font-weight:400}.delivery-status button{background:#d8b17b;border:0;border-radius:8px;padding:12px 20px}.delivery-status a{font-size:14px}
